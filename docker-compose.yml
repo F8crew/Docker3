@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "5173:5173" # Maps the host port 5173 to the container port 5173
+    command: npm run dev # Ensure this matches the dev command in your package.json
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: my_secure_password  # Replace with a secure password
+    ports:
+      - "3306:3306" # Expose MariaDB's default port
+    volumes:
+      - mariadb_data:/var/lib/mysql # Persistent storage for data
+
+volumes:
+  mariadb_data:
